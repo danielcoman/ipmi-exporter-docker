@@ -1,0 +1,16 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: ipmi-exporter
+  namespace: ipmi-exporter
+  labels:
+    app: ipmi-exporter
+spec:
+  endpoints:
+    - port: metrics
+  namespaceSelector:
+    matchNames:
+    - ipmi-exporter
+  selector:
+    matchLabels:
+      app: ipmi-exporter

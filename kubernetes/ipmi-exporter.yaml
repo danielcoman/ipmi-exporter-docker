@@ -1,0 +1,35 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ipmi-exporter
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ipmi-exporter
+  namespace: ipmi-exporter
+  labels:
+    app: ipmi-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ipmi-exporter
+  template:
+    metadata:
+      labels:
+        app: ipmi-exporter
+    spec:
+      containers:
+      - name: ipmi-exporter
+        image: danielcoman/ipmi-exporter:latest
+        ports:
+        - containerPort: 9290
+        volumeMounts:
+          - name: tz-bucharest
+            mountPath: /etc/localtime
+      volumes:
+      - name: tz-bucharest
+        hostPath:
+          path: /usr/share/zoneinfo/Europe/Bucharest
